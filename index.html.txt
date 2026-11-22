@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易網頁電子琴</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎹 簡易網頁電子琴</h1>
+        <p>點擊下方琴鍵，或使用鍵盤 <strong>A S D F G H J K</strong> 彈奏</p>
+        
+        <div class="piano">
+            <button class="key" data-note="C4" data-key="a">Do<br><span>(A)</span></button>
+            <button class="key" data-note="D4" data-key="s">Re<br><span>(S)</span></button>
+            <button class="key" data-note="E4" data-key="d">Mi<br><span>(D)</span></button>
+            <button class="key" data-note="F4" data-key="f">Fa<br><span>(F)</span></button>
+            <button class="key" data-note="G4" data-key="g">Sol<br><span>(G)</span></button>
+            <button class="key" data-note="A4" data-key="h">La<br><span>(H)</span></button>
+            <button class="key" data-note="B4" data-key="j">Si<br><span>(J)</span></button>
+            <button class="key" data-note="C5" data-key="k">Do<br><span>(K)</span></button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
