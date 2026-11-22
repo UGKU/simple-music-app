@@ -1,0 +1,57 @@
+// 初始化瀏覽器音效引擎
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+// 各音符對應的頻率 (Hz)
+const noteFrequencies = {
+    'C4': 261.63,
+    'D4': 293.66,
+    'E4': 329.63,
+    'F4': 349.23,
+    'G4': 392.00,
+    'A4': 440.00,
+    'B4': 493.88,
+    'C5': 523.25
+};
+
+// 發聲函式
+function playNote(note) {
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = 'triangle'; // 使用三角波，音色較柔和
+    oscillator.frequency.setValueAtTime(noteFrequencies[note], audioCtx.currentTime);
+
+    // 音量漸弱效果（避免爆音並模擬琴鍵餘音）
+    gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.8);
+}
+
+// 綁定滑鼠點擊事件
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => {
+    key.addEventListener('mousedown', () => {
+        const note = key.getAttribute('data-note');
+        playNote(note);
+    });
+});
+
+// 綁定電腦鍵盤事件
+document.addEventListener('keydown', (e) => {
+    if (e.repeat) return; // 防止長按連續觸發
+    const keyElement = document.querySelector(`.key[data-key="${e.key.toLowerCase()}"]`);
+    if (keyElement) {
+        const note = keyElement.getAttribute('data-note');
+        playNote(note);
+        keyElement.classList.add('active');
+        setTimeout(() => keyElement.classList.remove('active'), 150);
+    }
+});
